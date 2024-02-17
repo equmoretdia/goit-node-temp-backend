@@ -1,4 +1,4 @@
-const books = require("../models/books");
+const Book = require("../models/book");
 
 const {
   // HttpError,
@@ -6,7 +6,7 @@ const {
 } = require("../helpers");
 
 const getAll = async (req, res) => {
-  const allBooks = await books.getAll();
+  const allBooks = await Book.find();
   res.json(allBooks);
 };
 
@@ -25,10 +25,10 @@ const getAll = async (req, res) => {
 //   res.json(oneBook);
 // };
 
-// const add = async (req, res) => {
-//   const newBook = await books.add(req.body);
-//   res.status(201).json(newBook);
-// };
+const add = async (req, res) => {
+  const newBook = await Book.create(req.body);
+  res.status(201).json(newBook);
+};
 
 // const updateById = async (req, res) => {
 //   const { id } = req.params;
@@ -54,7 +54,7 @@ const getAll = async (req, res) => {
 module.exports = {
   getAll: ctrlWrapper(getAll),
   // getById: ctrlWrapper(getById),
-  // add: ctrlWrapper(add),
+  add: ctrlWrapper(add),
   // updateById: ctrlWrapper(updateById),
   // deleteId: ctrlWrapper(deleteId),
 };
