@@ -53,9 +53,9 @@ const Book = model("book", bookSchema);
 const addSchema = Joi.object({
   title: Joi.string().required(),
   author: Joi.string().required(),
-  favotite: Joi.boolean(),
+  favorite: Joi.boolean(),
   genres: Joi.string()
-    .validate(...genreList)
+    .valid(...genreList)
     .required(),
   date: Joi.string().pattern(dateRegexp).required(),
 });

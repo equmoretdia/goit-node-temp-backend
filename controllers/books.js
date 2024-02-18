@@ -1,29 +1,32 @@
 const { Book } = require("../models/book");
 
-const {
-  // HttpError,
-  ctrlWrapper,
-} = require("../helpers");
+const { HttpError, ctrlWrapper } = require("../helpers");
 
 const getAll = async (req, res) => {
-  const allBooks = await Book.find();
+  // const allBooks = await Book.find();
+  // const allBooks = await Book.find({
+  //   author: "Marijn Haverbeke",
+  // });
+  // const allBooks = await Book.find({}, "title author");
+  const allBooks = await Book.find({}, "-favotite");
   res.json(allBooks);
 };
 
-// const getById = async (req, res) => {
-//   // console.log(req.params);
-//   const { id } = req.params;
-//   const oneBook = await books.getById(id);
-//   if (!oneBook) {
-//     throw HttpError(404, "Not found");
-//     //   const error = new Error("Not found");
-//     //   error.status = 404;
-//     //   throw error;
-//     //   ***
-//     //   return res.status(404).json({ message: "Not found" });
-//   }
-//   res.json(oneBook);
-// };
+const getById = async (req, res) => {
+  // console.log(req.params);
+  const { id } = req.params;
+  const oneBook = await Book.findById(id);
+  // const oneBook = await Book.findOne({ _id: id });
+  if (!oneBook) {
+    throw HttpError(404, "Not found");
+    //   const error = new Error("Not found");
+    //   error.status = 404;
+    //   throw error;
+    //   ***
+    //   return res.status(404).json({ message: "Not found" });
+  }
+  res.json(oneBook);
+};
 
 const add = async (req, res) => {
   const newBook = await Book.create(req.body);
@@ -53,7 +56,7 @@ const add = async (req, res) => {
 
 module.exports = {
   getAll: ctrlWrapper(getAll),
-  // getById: ctrlWrapper(getById),
+  getById: ctrlWrapper(getById),
   add: ctrlWrapper(add),
   // updateById: ctrlWrapper(updateById),
   // deleteId: ctrlWrapper(deleteId),
