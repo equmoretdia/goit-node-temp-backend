@@ -13,7 +13,7 @@ mongoose
   .then(() => {
     console.log("Database connect success");
     app.listen(PORT, () => {
-      console.log("Server running. Use our API on port: 3030");
+      console.log(`Server is running. Use our API on port: ${PORT}`);
     });
   })
   .catch((error) => {
