@@ -1,8 +1,13 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const { User } = require("../models/user");
 
 const { HttpError, ctrlWrapper } = require("../helpers");
+
+const { SECRET_KEY } = process.env;
+// console.log(process.env);
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -28,8 +33,19 @@ const login = async (req, res) => {
   if (!passwordCompare) {
     throw HttpError(401, "Email or password invalid.");
   }
-  const token = "";
-  res.json({ token });
+  const payload = {
+    id: user._id,
+  };
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+  //   try {
+  //     const { id } = jwt.verify(token, SECRET_KEY);
+  //     console.log(id);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  res.json({
+    token,
+  });
 };
 
 module.exports = {
