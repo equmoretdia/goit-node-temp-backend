@@ -3,10 +3,10 @@ const logger = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
+dotenv.config();
+
 const authRouter = require("./routes/api/auth");
 const booksRouter = require("./routes/api/books");
-
-dotenv.config();
 
 const app = express();
 
