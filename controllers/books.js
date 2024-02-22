@@ -8,7 +8,9 @@ const getAll = async (req, res) => {
   //   author: "Marijn Haverbeke",
   // });
   // const allBooks = await Book.find({}, "title author");
-  const allBooks = await Book.find({}, "-favotite");
+  const { _id: owner } = req.user;
+  // const allBooks = await Book.find({}, "-favotite");
+  const allBooks = await Book.find({ owner }, "-favotite");
   res.json(allBooks);
 };
 
@@ -29,7 +31,9 @@ const getById = async (req, res) => {
 };
 
 const add = async (req, res) => {
-  const newBook = await Book.create(req.body);
+  // console.log(req.user);
+  const { _id: owner } = req.user;
+  const newBook = await Book.create({ ...req.body, owner });
   res.status(201).json(newBook);
 };
 
