@@ -9,8 +9,14 @@ const getAll = async (req, res) => {
   // });
   // const allBooks = await Book.find({}, "title author");
   const { _id: owner } = req.user;
+  // console.log(req.query);
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
   // const allBooks = await Book.find({}, "-favotite");
-  const allBooks = await Book.find({ owner }, "-favotite");
+  const allBooks = await Book.find({ owner }, "-favotite", {
+    skip,
+    limit,
+  }).populate("owner", "name email");
   res.json(allBooks);
 };
 
